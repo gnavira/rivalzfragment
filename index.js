@@ -16,12 +16,15 @@ function appendLog(message) {
 async function doClaim(privateKey) {
   const wallet = new ethers.Wallet(privateKey, provider);
   try {
+    const gasLimit = 300000;
     const claimContract = new ethers.Contract(
       CLAIM_CA,
       RIVALZ_ABI,
       wallet
     );
-    const txClaim = await claimContract.claim()
+    const txClaim = await claimContract.claim({
+      gasLimit: gasLimit
+    });
     const receipt = await txClaim.wait(10);
     const successMessage = `Transaction Confirmed in block ${receipt.blockNumber}`;
     console.log(successMessage.blue);
@@ -40,8 +43,8 @@ async function runClaim() {
   const timezone = moment().tz('Asia/Jakarta').format('HH:mm:ss [WIB] DD-MM-YYYY');
   for (const PRIVATE_KEY of PRIVATE_KEYS) {
     try {
-	 for (let i = 0; i < 20; i++) {
-      await delay(15000);
+	 for (let i = 0; i < 11; i++) {
+      await delay(5000);
       const receiptTx = await doClaim(PRIVATE_KEY);
       if (receiptTx) {
         const successMessage = `[${timezone}] Transaction Hash: ${explorer.tx(receiptTx)}`;
