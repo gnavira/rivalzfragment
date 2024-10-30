@@ -43,7 +43,7 @@ async function runClaim() {
   const timezone = moment().tz('Asia/Jakarta').format('HH:mm:ss [WIB] DD-MM-YYYY');
   for (const PRIVATE_KEY of PRIVATE_KEYS) {
     try {
-	 for (let i = 0; i < 11; i++) {
+	 for (let i = 0; i < 20; i++) {
       await delay(5000);
       const receiptTx = await doClaim(PRIVATE_KEY);
       if (receiptTx) {
