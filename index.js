@@ -60,5 +60,6 @@ async function runClaim() {
       console.log('');
 	}
   }
+ appendLog('');
 }
 runClaim();
