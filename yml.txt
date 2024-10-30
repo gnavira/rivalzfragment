@@ -1,0 +1,35 @@
+name: Claim Tokens
+
+on:
+  schedule:
+    - cron: '0 */12 * * *'
+  workflow_dispatch:
+
+jobs:
+  claim:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Claim Script
+        run: node index.js
+
+      - name: Commit and Push Updated Log
+        run: |
+          git config --global user.name "example"
+          git config --global user.email "example@gmail.com"
+          git add log.txt
+          git commit -m "Update log.txt"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
